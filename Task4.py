@@ -25,4 +25,30 @@ with open('calls.csv', 'r') as f:
 <list of numbers>
 电话号码不能重复，每行打印一条，按字典顺序排序后输出。
 """
+market_nums = set()
+not_market_nums = set()
+for call in calls:
+    incoming_num = call[0]
+    if not incoming_num.startswith('140'):
+        continue
+    market_nums.add(incoming_num)
 
+for call in calls:
+    answering_num = call[1]
+    if not answering_num.startswith('140'):
+        continue
+    not_market_nums.add(answering_num)
+
+for text in texts:
+    incoming_number = text[0]
+    if incoming_number.startswith('140'):
+        not_market_nums.add(incoming_number)
+    answering_number = text[1]
+    if answering_number.startswith('140'):
+        not_market_nums.add(answering_number)
+
+market_nums -= not_market_nums
+sorted_marketer_num = sorted(market_nums)
+print("These numbers could be telemarketers: ")
+for num in sorted_marketer_num:
+    print(num)

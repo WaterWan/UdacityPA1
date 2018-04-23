@@ -68,6 +68,7 @@ for call in calls:
         prefix_nums.add(answering_phone[0:4])
 
 sorted_prefix_nums = sorted(prefix_nums)
+print("The numbers called by people in Bangalore have codes:")
 for num in sorted_prefix_nums:
-    print('The numbers called by people in Bangalore have codes: {}'.format(num))
+    print(num)
 print('{:.2f} percent of calls from fixed lines in Bangalore are calls to other fixed lines in Bangalore.'.format(answering_cnt * 100 / incoming_cnt))

@@ -39,3 +39,35 @@ with open('calls.csv', 'r') as f:
 to other fixed lines in Bangalore."
 注意：百分比应包含2位小数。
 """
+incoming_cnt = 0
+answering_cnt = 0
+prefix_nums = set()
+for call in calls:
+    incoming_phone = call[0]
+    answering_phone = call[1]
+    """
+    先处理班加罗尔固话拨出的记录
+    """
+    if not incoming_phone.startswith('(080)'):
+        continue
+
+    """
+    处理区号信息
+    """
+    incoming_cnt += 1
+    if answering_phone.startswith('('):
+        import re
+        end_place = re.search('\)', answering_phone)
+        if end_place:
+            area_num = answering_phone[1:end_place.start()]
+            prefix_nums.add(area_num)
+            if area_num == '080':
+                answering_cnt += 1
+    # 处理移动前缀
+    elif answering_phone.startswith('7') or answering_phone.startswith('8') or answering_phone.startswith('9'):
+        prefix_nums.add(answering_phone[0:4])
+
+sorted_prefix_nums = sorted(prefix_nums)
+for num in sorted_prefix_nums:
+    print('The numbers called by people in Bangalore have codes: {}'.format(num))
+print('{:.2f} percent of calls from fixed lines in Bangalore are calls to other fixed lines in Bangalore.'.format(answering_cnt * 100 / incoming_cnt))
